@@ -1,0 +1,215 @@
+-- Login to mysql in shell
+-- mysql -u anabig114247 -pBigdata123
+
+-- choose database
+use anabig114247;
+
+-- upload all files to local before table creating and loading of data
+
+
+-- create titles table
+CREATE TABLE titles (
+title_id VARCHAR(20),
+title VARCHAR(20));
+LOAD DATA LOCAL INFILE "/home/anabig114247/titles.csv" INTO TABLE titles                                                                                   
+               FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+
+-- create employees table
+CREATE TABLE employees (                                                                                                                                         
+emp_no INT NOT NULL,                                                                                                                                             
+emp_title_id VARCHAR(20) NOT NULL,                                                                                                                               
+birth_date VARCHAR(10) NOT NULL,                                                                                                                                 
+first_name VARCHAR(20) NOT NULL,                                                                                                                                 
+last_name VARCHAR(20) NOT NULL,                                                                                                                                                                                                                                                                                                
+sex VARCHAR(20) NOT NULL,                                                                                                                                                                                                                                                                                                       
+hire_date VARCHAR(10) NOT NULL,                                                                                                                                                                                                                                                                                                no_of_projects INT NOT NULL,                                                                                                                                                                                                                                                                                                  
+Last_performance_rating VARCHAR(20) NOT NULL,                                                                                                                                                                                                                                                                                 
+lefts INT NOT NULL,                                                                                                                                                                                                                                                                                                      
+Last_date VARCHAR(10)                                                                                                                                                                                                                                                                                                           
+);                                                                                                                                                                                                                                                        LOAD DATA LOCAL INFILE "/home/anabig114247/employees.csv" INTO TABLE employees                                                                                   
+               FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+
+-- create salaries table
+CREATE TABLE salaries (                                                                                                                                                                                                                  
+emp_no INT,                                                                                                                                    
+salary BIGINT);                                                                                                                                                                               
+LOAD DATA LOCAL INFILE "/home/anabig114247/salaries.csv" INTO TABLE salaries
+ FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+
+-- create department table
+CREATE TABLE depts (                                                                                                                                   
+dept_no VARCHAR(20),                                                                                                                               
+dept_name VARCHAR(20));                                                                                                                                                                                                                                                         LOAD DATA LOCAL INFILE "/home/anabig114247/departments.csv" INTO TABLE depts
+              FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+--create department-manager table
+CREATE TABLE depts_man (                                                                                                                               
+dept_no VARCHAR(20),                                                                                                                        
+emp_no int);                                                                                                                                                                             
+LOAD DATA LOCAL INFILE "/home/anabig114247/dept_manager.csv" INTO TABLE depts_man FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+--create department-employees table
+CREATE TABLE dept_emp (                                                                                                                        
+emp_no int,                                                                                                                            
+dept_no VARCHAR(20));                                                                                                                                                                  
+LOAD DATA LOCAL INFILE "/home/anabig114247/dept_emp.csv" INTO TABLE dept_emp
+              FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+
+
+SQOOP:-
+
+-- list databases from mysql using sqoop
+sqoop list-databases --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal:3306 --username anabig114247 --password Bigdata123
+
+-- list tables from mysql using sqoop
+sqoop list-tables --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal:3306/anabig114247 --username anabig114247 --password Bigdata123
+
+-- import mysql tables to hdfs as avro files
+sqoop import-all-tables  --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal:3306/anabig114247 --username anabig114247 --password Bigdata123 --m 1 --compression-codec=snappy --as-avrodatafile --driver com.mysql.jdbc.Driver 
+
+
+HIVE:-
+
+-- create and use database
+CREATE DATABASE capst1chin; 
+USE capst1chin;
+
+-- set header=true
+set hive.cli.print.header=true;
+
+-- create titles table
+CREATE EXTERNAL TABLE title (
+title_id STRING,
+title STRING)
+STORED AS AVRO
+LOCATION "/user/anabig114247/titles";
+
+-- create employees table
+CREATE EXTERNAL TABLE emps (                                                                                                                                         
+emp_no INT,                                                                                                                                             
+emp_title_id STRING,                                                                                                                               
+birth_date STRING,                                                                                                                                 
+first_name STRING,                                                                                                                                 
+last_name STRING,                                                                                                                                                                                                                         
+sex STRING,                                                                                                                                                                                                                                                                                     
+hire_date STRING,                                                                                                                                                                                                                                                                                                no_of_projects INT,                                                                                                                                                                                                                                                                                             Last_performance_rating STRING,                                                                                                                                                                                                                                                                                lefts INT,                                                                                                                                                                                                                                                         
+Last_date STRING                                                                                                                                                                                                                                                                                                           
+)STORED AS AVRO
+LOCATION "/user/anabig114247/empl"
+TBLPROPERTIES ('avro.schema.url'='/user/anabig114247/new1/empl.avsc');
+
+-- change datatype of date columns to appropriate types and load to a new table
+CREATE TABLE emp as
+SELECT emp_no, emp_title_id, CAST(from_unixtime(unix_timestamp(birth_date, 'dd-MM-yyyy')) AS timestamp) birth_date, first_name, last_name, sex, CAST(from_unixtime(unix_timestamp(hire_date, 'dd-MM-yyyy')) AS timestamp) hire_date, no_of_projects, Last_performance_rating, lefts, CAST(from_unixtime(unix_timestamp(Last_date, 'dd-MM-yyyy')) AS timestamp) last_date FROM emps;
+
+
+-- create salaries table
+CREATE EXTERNAL TABLE salary (                                                                                                                                                                                                                  
+emp_no INT,                                                                                                                                    
+salary BIGINT)
+STORED AS AVRO
+LOCATION "/user/anabig114247/salaries";   
+
+-- create department table
+CREATE EXTERNAL TABLE dept (                                                                                                                                   
+dept_no STRING,                                                                                                                               
+dept_name STRING)
+STORED AS AVRO
+LOCATION "/user/anabig114247/depts";   
+
+--create department-manager table
+CREATE EXTERNAL TABLE dept_man (                                                                                                                               
+dept_no STRING,                                                                                                                        
+emp_no INT)
+STORED AS AVRO
+LOCATION "/user/anabig114247/depts_man";                                                                              
+
+--create department-employees table
+CREATE EXTERNAL TABLE depts_emp (                                                                                                                        
+emp_no INT,                                                                                                                            
+dept_no STRING)
+STORED AS AVRO
+LOCATION "/user/anabig114247/dept_emp";                                                                              
+
+             
+
+IMPALA:-
+
+INVALIDATE METADATA
+
+-- use database 
+use capstone1
+
+-- 1.
+SELECT E.emp_no, E.last_name, E.first_name, E.sex, S.salary FROM emp AS E 
+          INNER JOIN salary AS S ON E.emp_no=S.emp_no;
+
+-- 2.
+SELECT first_name, last_name, hire_date FROM emp WHERE year(hire_date)=1986;
+
+-- 3.
+SELECT D.dept_no, D.dept_name, E.emp_no, E.last_name, E.first_name 
+FROM emp E INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no;
+
+-- 4.
+SELECT E.emp_no, E.last_name, E.first_name, D.dept_name FROM emp E 
+          INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no;
+
+-- 5.
+SELECT first_name, last_name, sex from emp where first_name="Hercules" and last_name LIKE "B%";
+
+-- 6.
+SELECT E.emp_no, E.last_name, E.first_name, D.dept_no, D.dept_name
+FROM emp E INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no
+WHERE D.dept_name='"Sales"'; 
+
+-- 7.
+SELECT E.emp_no, E.last_name, E.first_name, D.dept_name
+        FROM emp E INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no
+WHERE D.dept_name IN ('"Sales"','"development"');
+
+-- 8.
+SELECT last_name, count(last_name) cnt FROM emp GROUP BY last_name ORDER BY cnt DESC;
+
+-- 9.
+SELECT emp_no, salary FROM salary;
+
+-- 10.
+SELECT T.title,AVG(S.salary) avg_sal 
+          FROM emp AS E INNER JOIN salary AS S ON E.emp_no=S.emp_no 
+          INNER JOIN title AS T on E.emp_title_id=T.title_id GROUP BY T.title; 
+
+-- 11.
+SELECT e.employee_tenure, count(e.employee_tenure) cnt FROM 
+            (SELECT CASE WHEN lefts=0 THEN CONCAT(CEILING(DATEDIFF('2013',hire_date)/365.25)," yrs")
+            WHEN lefts=1 THEN CONCAT(CEILING(DATEDIFF(last_date,hire_date)/365.25)," yrs")
+            END AS employee_tenure from emp) AS e GROUP BY e.employee_tenure ORDER BY cnt DESC;
+
+-- 12.
+SELECT T.title, E.sex, COUNT(E.sex) gender_cnt 
+          FROM emp AS E INNER JOIN salary AS S ON E.emp_no=S.emp_no 
+          INNER JOIN title AS T on E.emp_title_id=T.title_id GROUP BY T.title, E.sex 
+          ORDER BY gender_cnt DESC,T.title,E.sex;
+
+-- 13.
+SELECT D.dept_name, E.sex, AVG(salary) AS avg_salary
+        FROM emp E INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no 
+        INNER JOIN salary S ON E.emp_no=S.emp_no GROUP BY D.dept_name, E.sex ORDER BY avg_salary DESC;
+
+-- 14
+SELECT D.dept_name, AVG(CEILING(DATEDIFF(E.last_date,E.hire_date)/365.25)), COUNT(E.lefts) AS left_cnt
+        FROM emp E INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no 
+        INNER JOIN salary S ON E.emp_no=S.emp_no WHERE E.lefts=1 GROUP BY D.dept_name ORDER BY left_cnt DESC;
+
+-- 15
+SELECT D.dept_name, T.title, COUNT(E.no_of_projects) proj_cnt
+        FROM emp E INNER JOIN depts_emp DE ON E.emp_no=DE.emp_no INNER JOIN dept D ON DE.dept_no=D.dept_no 
+        INNER JOIN title AS T on E.emp_title_id=T.title_id GROUP BY D.dept_name, T.title ORDER BY proj_cnt DESC LIMIT 10;
+
+-- 16.
+SELECT Last_performance_rating, count(Last_performance_rating) as cnt 
+            FROM emp GROUP BY Last_performance_rating ORDER BY cnt DESC
+
