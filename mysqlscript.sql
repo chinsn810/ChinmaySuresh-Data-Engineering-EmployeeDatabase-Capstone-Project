@@ -49,7 +49,7 @@ dept_name VARCHAR(20));                                                         
 CREATE TABLE depts_man (                                                                                                                               
 dept_no VARCHAR(20),                                                                                                                        
 emp_no int);                                                                                                                                                                             
-LOAD DATA LOCAL INFILE "/home/anabig114247/dept_manager.csv" INTO TABLE depts_man                                                                              FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE "/home/anabig114247/dept_manager.csv" INTO TABLE depts_man FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
 
 --create department-employees table
 CREATE TABLE dept_emp (                                                                                                                        
