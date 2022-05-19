@@ -73,5 +73,5 @@ SELECT D.dept_name, T.title, COUNT(E.no_of_projects) proj_cnt
 
 -- 16.
 SELECT Last_performance_rating, count(Last_performance_rating) as cnt 
-            FROM emp GROUP BY Last_performance_rating ORDER BY cnt DESC
+            FROM emp GROUP BY Last_performance_rating ORDER BY cnt DESC;
 
