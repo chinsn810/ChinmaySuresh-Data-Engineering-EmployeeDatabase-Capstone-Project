@@ -25,9 +25,9 @@ LOCATION "/user/anabig114247/empl"
 TBLPROPERTIES ('avro.schema.url'='/user/anabig114247/new1/empl.avsc');
 
 CREATE TABLE emp as                                                                                                                                                     
-
-SELECT emp_no, emp_title_id, CAST(from_unixtime(unix_timestamp(birth_date, 'dd-MM-yyyy')) AS timestamp) birth_date, first_name, last_name, sex, CAST(from_unixtime(unix_timestamp(hire_date, 'dd-MM-yyyy')) AS timestamp) hire_date, no_of_projects, Last_performance_rating, lefts, CAST(from_unixtime(unix_timestamp(Last_date, 'dd-MM-yyyy'))
- AS timestamp) last_date from emps;
+SELECT emp_no, emp_title_id, CAST(from_unixtime(unix_timestamp(birth_date, 'dd-MM-yyyy')) AS timestamp) birth_date, first_name, last_name, sex, 
+CAST(from_unixtime(unix_timestamp(hire_date, 'dd-MM-yyyy')) AS timestamp) hire_date, no_of_projects, Last_performance_rating, lefts, 
+CAST(from_unixtime(unix_timestamp(Last_date, 'dd-MM-yyyy')) AS timestamp) last_date from emps;
 
 CREATE EXTERNAL TABLE salary (
 emp_no INT,
