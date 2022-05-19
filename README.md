@@ -1,2 +1,3 @@
 # DATA ENGINEERING MODEL ANALYSIS
-End to End pipeline creation (Capstone Proj.)
+
+### Creation of an end-to-end data pipeline based on database of employees from 1980s-1995s belonging to a big corporation.
