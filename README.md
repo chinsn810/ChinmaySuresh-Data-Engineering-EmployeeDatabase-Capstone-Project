@@ -6,7 +6,7 @@
 #### RDBMS, MySQL, SQOOP, HDFS, HIVE, IMPALA, SPARK, SparkML, LINUX
 
 ## STEPS:
-1)	Data Ingestion which involves transfer of data from Created Tables in RDBMS (MySQL) to HDFS as AVRO files using SQOOP.
+1)	Data Ingestion which involves receiving data from Created Tables in RDBMS (MySQL) to and storing in HDFS as AVRO files using SQOOP.
 
 2)	Create database and tables in Hive, and load AVRO files into the tables.
     hive -f capstone1.hql
