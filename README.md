@@ -11,7 +11,7 @@
 2)	Create database and tables in Hive, and load AVRO files into the tables.
     hive -f capstone1.hql
 
-3)	Establish connection between PySpark and Hive metastore.
+3)	Establish connection between PySpark and Hive.
 
 4)	Data Analysis with Impala (ImpalaQL) and PySpark (Spark SQL) on Hive tables.
 
