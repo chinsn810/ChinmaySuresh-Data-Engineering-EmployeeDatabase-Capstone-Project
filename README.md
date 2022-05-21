@@ -16,6 +16,6 @@
 4)	Data Analysis with Impala (ImpalaSQL) and PySpark (Spark SQL) on Hive tables.
 
 5)	Model Building in PySpark to predict whether a employee will leave or not.
-Then create a ML Pipeline encompassing all the process/stages which includes the transformation processes i.e, String Indexing, Vector Assembling, Classifier
+Then create a model Pipeline encompassing all the process/stages which includes the transformation processes i.e, String Indexing, Vector Assembling, Classifier
 
 6)	Creating an end-to-end pipeline
