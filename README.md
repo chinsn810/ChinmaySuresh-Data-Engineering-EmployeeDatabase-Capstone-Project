@@ -11,10 +11,14 @@
 
 ## STEPS:
 1)	Data Ingestion which involves receiving data from Created Tables in RDBMS (MySQL) to and storing in HDFS as AVRO files using SQOOP.
+    
     a. upload mysqlscipt.sql to local
+    
     b. create and choose database
+    
     c. run the below command in mysql server to create tables under 
-    ```use anabig114247;
+    ```
+    use anabig114247;
     source /home/anabig114247/create_db.sql
     ```
 
