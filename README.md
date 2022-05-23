@@ -21,15 +21,25 @@
     use anabig114247;
     source /home/anabig114247/create_db.sql
     ```
+    
+    d. transfer data to HDFS as avro files using **Sqoop**
+    ```
+    sqoop import-all-tables  --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal:3306/anabig114247 --username anabig114247 --password Bigdata123 --m 1 --compression-codec=snappy --as-avrodatafile --driver com.mysql.jdbc.Driver
+    ```
 
 2)	Create database and tables in Hive, and load AVRO files into the tables.
+    ```
     hive -f capstone1.hql
+    ```
 
 3)	Establish connection between PySpark and Hive.
 
 4)	Data Analysis with Impala (ImpalaSQL) and PySpark (Spark SQL) on Hive tables.
 
 5)	Model Building in PySpark to predict whether a employee will leave or not.
-Then create a model Pipeline encompassing all the process/stages which includes the transformation processes i.e, String Indexing, Vector Assembling, Classifier
+Then create a model Pipeline encompassing all the process/stages which includes the transformation processes i.e, String Indexing, Vector Assembling, Classifier.
+```
+spark-submit capstone.py
+```
 
 6)	Creating an end-to-end pipeline
