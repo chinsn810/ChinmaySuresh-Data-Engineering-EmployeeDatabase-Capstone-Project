@@ -1,6 +1,10 @@
-## DATA ENGINEERING-ANALYSIS-MODEL-PIPELINE
+## DATA ENGINEERING CAPSTONE PROJECT
 
 #### Creation of an end-to-end data pipeline and data analysis based on database of employees from 1980s-1995s belonging to a big corporation.
+
+### DATA: 
+#### We have 6 csv files based on employee database of more than 10 years:
+#### employees.csv, salaries.csv, titles.csv, dept_emp.csv, dept_manager.csv, departments.csv 
 
 ### TECHNOLOGY STACK:
 #### RDBMS, MySQL, SQOOP, HDFS, HIVE, IMPALA, SPARK, SparkML, LINUX
