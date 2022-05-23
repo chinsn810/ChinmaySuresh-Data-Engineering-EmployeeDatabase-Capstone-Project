@@ -39,7 +39,7 @@
 5)	Model Building in PySpark to predict whether a employee will leave or not.
 Then create a model Pipeline encompassing all the process/stages which includes the transformation processes i.e, String Indexing, Vector Assembling, Classifier.
 ```
-spark-submit capstone.py
+spark-submit spark.py
 ```
 
 6)	Creating an end-to-end pipeline
