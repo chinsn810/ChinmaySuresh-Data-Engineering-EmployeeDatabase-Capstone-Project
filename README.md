@@ -11,6 +11,9 @@
 
 ## STEPS:
 1)	Data Ingestion which involves receiving data from Created Tables in RDBMS (MySQL) to and storing in HDFS as AVRO files using SQOOP.
+    a. upload mysqlscipt.sql to local
+    b. run the below command to create tables under 
+    $ source /home/anabig114247/create_db.sql
 
 2)	Create database and tables in Hive, and load AVRO files into the tables.
     hive -f capstone1.hql
